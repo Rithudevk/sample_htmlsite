@@ -1,24 +1,35 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars($_POST['name']);
-    $email = htmlspecialchars($_POST['email']);
-    $message = htmlspecialchars($_POST['message']);
 
-    $to = "devrithu545@gmail.com"; // Replace with your client's Gmail address
-    $subject = "New Contact Form Submission from $name";
-    $headers = "From: $email\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+$name = $_POST["name"];
+$email = $_POST["email"];
+$subject = $_POST["subject"];
+$message = $_POST["message"];
 
-    $body = "<h2>Contact Form Submission</h2>
-             <p><strong>Name:</strong> $name</p>
-             <p><strong>Email:</strong> $email</p>
-             <p><strong>Message:</strong><br>$message</p>";
+require "vendor/autoload.php";
 
-    if (mail($to, $subject, $body, $headers)) {
-        echo "Your message has been sent successfully!";
-    } else {
-        echo "There was an error sending your message. Please try again later.";
-    }
-}
-?>
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+
+$mail = new PHPMailer(true);
+
+// $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+
+$mail->isSMTP();
+$mail->SMTPAuth = true;
+
+$mail->Host = "smtp.example.com";
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+$mail->Port = 587;
+
+$mail->Username = "you@example.com";
+$mail->Password = "password";
+
+$mail->setFrom($email, $name);
+$mail->addAddress("dave@example.com", "Dave");
+
+$mail->Subject = $subject;
+$mail->Body = $message;
+
+$mail->send();
+
+header("Location: sent.html");

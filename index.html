@@ -1,45 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Contact</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 </head>
 <body>
-    <h2>Contact Us</h2>
-    <form id="contactForm" action="send_email.php" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
+    <h1>Contact</h1>
+    
+    <form method="post" action="send-email.php">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" required>
         
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <label for="email">email</label>
+        <input type="email" name="email" id="email" required>
         
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea><br><br>
+        <label for="subject">Subject</label>
+        <input type="text" name="subject" id="subject" required>
         
-        <button type="submit">Send</button>
+        <label for="message">Message</label>
+        <textarea name="message" id="message" required></textarea>
+        
+        <br>
+        
+        <button>Send</button>
     </form>
-
-    <div id="result"></div>
-
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const formData = new FormData(this);
-
-            fetch('send_email.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('result').innerHTML = data;
-            })
-            .catch(error => {
-                document.getElementById('result').innerHTML = 'Error: ' + error.message;
-            });
-        });
-    </script>
+    
 </body>
 </html>
